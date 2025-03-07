@@ -18,13 +18,30 @@
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            background: linear-gradient(135deg, #4caf50, #ffeb3b, #795548, #2196f3);
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.7), rgba(255, 235, 59, 0.7), rgba(121, 85, 72, 0.7), rgba(33, 150, 243, 0.7));
             background-size: 400% 400%;
-            animation: fadeIn 2s ease-in, slideIn 3s ease-in;
+            background-image: url('https://klikpajak.id/wp-content/uploads/2018/11/KlikPajak_Blog_Pajak-Pertambahan-Nilai-dan-Kaitannya-dengan-Pajak-Perkebunan-Sawit.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: #fff;
             position: relative;
+            min-height: 100vh;
+            margin: 0;
         }
-        h1, h2 {
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        h1, h2, h3 {
             text-align: center;
             animation: slideIn 1.5s ease-in;
         }
@@ -81,7 +98,7 @@
             display: block;
             margin-bottom: 5px;
         }
-        input[type="text"], input[type="number"], input[type="date"], select {
+        input[type="text"], input[type="number"], input[type="date"], input[type="password"], select {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -99,6 +116,17 @@
         button:hover {
             background-color: #388e3c;
         }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
         .logo-container {
             display: flex;
             justify-content: flex-start;
@@ -109,66 +137,472 @@
             width: 150px;
             animation: fadeIn 3s ease-in;
         }
+        
+        /* Login Page Styles */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            color: #333;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4caf50;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        /* New Logout Button Styles */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: 2px solid #ffeb3b;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .logout-btn:hover {
+            background-color: #388e3c;
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.8);
+        }
     </style>
 </head>
 <body>
-    <div class="logo-container">
-        <img src="https://indrakarya.co.id/wp-content/uploads/2025/02/cropped-Turunan-Logo-01-1.png" alt="Company Logo" class="logo">
-    </div>
-    <h1>Asset Management System - Palm Oil Plantation</h1>
-    
-    <div class="selection-container">
-        <button class="selection-button" onclick="showPage('add')">Penambahan Aset</button>
-        <button class="selection-button" onclick="showPage('reduce')">Pengurangan Aset</button>
-    </div>
+    <div class="overlay"></div>
 
-    <div id="add-page" class="container hidden">
-        <h2>Add New Asset</h2>
-        <form id="asset-form">
+    <!-- Login Page -->
+    <div id="login-page" class="login-container">
+        <div class="login-logo">
+            <img src="https://indrakarya.co.id/wp-content/uploads/2025/02/cropped-Turunan-Logo-01-1.png" alt="Company Logo" class="logo">
+        </div>
+        <h2 class="login-title">Asset Management System</h2>
+        <form id="login-form">
             <div class="form-group">
-                <label for="asset-name">Asset Name:</label>
-                <input type="text" id="asset-name" name="asset-name" required>
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
             </div>
             <div class="form-group">
-                <label for="asset-value">Asset Value (IDR):</label>
-                <input type="number" id="asset-value" name="asset-value" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
             </div>
-            <div class="form-group">
-                <label for="purchase-date">Purchase Date:</label>
-                <input type="date" id="purchase-date" name="purchase-date" required>
-            </div>
-            <div class="form-group">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" required>
-            </div>
-            <div class="form-group">
-                <label for="location">Location:</label>
-                <select id="location" name="location" required>
-                    <option value="Kantor Pusat">Kantor Pusat</option>
-                    <option value="DE 1">DE 1</option>
-                    <option value="DSI">DSI</option>
-                    <option value="DE 3">DE 3</option>
-                </select>
-            </div>
-            <button type="submit">Add Asset</button>
+            <button type="submit" class="login-btn">Login</button>
         </form>
     </div>
 
-    <div id="reduce-page" class="container hidden">
-        <h2>Reduce Asset</h2>
-        <p>Form for reducing assets will be added here.</p>
+    <!-- Main Application Container (initially hidden) -->
+    <div id="app-container" class="hidden">
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="https://indrakarya.co.id/wp-content/uploads/2025/02/cropped-Turunan-Logo-01-1.png" alt="Company Logo" class="logo">
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <h1>Asset Management System - Palm Oil Plantation</h1>
+        
+        <div class="selection-container">
+            <button class="selection-button" onclick="showPage('add-page')">Penambahan Aset</button>
+            <button class="selection-button" onclick="showPage('reduce-page')">Pengurangan Aset</button>
+        </div>
+
+        <!-- Add Asset Page -->
+        <div id="add-page" class="container hidden">
+            <h2>Add New Asset</h2>
+            <form id="add-asset-form">
+                <div class="form-group">
+                    <label for="add-asset-name">Asset Name:</label>
+                    <input type="text" id="add-asset-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-asset-value">Asset Value (IDR):</label>
+                    <input type="number" id="add-asset-value" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-purchase-date">Purchase Date:</label>
+                    <input type="date" id="add-purchase-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-quantity">Quantity:</label>
+                    <input type="number" id="add-quantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-location">Location:</label>
+                    <select id="add-location" required>
+                        <option value="Kantor Pusat">Kantor Pusat</option>
+                        <option value="DE 1">DE 1</option>
+                        <option value="DE 3">DE 3</option>
+                        <option value="DSI">DSI</option>
+                    </select>
+                </div>
+                <button type="submit">Add Asset</button>
+            </form>
+            <h3>Asset List</h3>
+            <table id="add-asset-list">
+                <thead>
+                    <tr>
+                        <th>Asset Name</th>
+                        <th>Asset Value (IDR)</th>
+                        <th>Purchase Date</th>
+                        <th>Quantity</th>
+                        <th>Location</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="add-asset-table-body"></tbody>
+            </table>
+        </div>
+
+        <!-- Reduce Asset Page -->
+        <div id="reduce-page" class="container hidden">
+            <h2>Reduce Asset</h2>
+            <form id="reduce-asset-form">
+                <div class="form-group">
+                    <label for="reduce-asset-name">Asset Name:</label>
+                    <input type="text" id="reduce-asset-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="reduce-asset-code">Kode Barang:</label>
+                    <input type="text" id="reduce-asset-code" placeholder="xx.xx.xx.xx" maxlength="11" required>
+                </div>
+                <div class="form-group">
+                    <label for="reduce-location-code">Kode Lokasi:</label>
+                    <input type="text" id="reduce-location-code" placeholder="xx.xx.xx" maxlength="8" required>
+                </div>
+                <div class="form-group">
+                    <label for="reduce-location">Location:</label>
+                    <select id="reduce-location" required>
+                        <option value="Kantor Pusat">Kantor Pusat</option>
+                        <option value="DE 1">DE 1</option>
+                        <option value="DE 3">DE 3</option>
+                        <option value="DSI">DSI</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reduce-quantity">Quantity to Reduce:</label>
+                    <input type="number" id="reduce-quantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="reduce-reason">Reason for Reduction:</label>
+                    <select id="reduce-reason" required>
+                        <option value="Rusak">Rusak</option>
+                        <option value="Hilang">Hilang</option>
+                        <option value="Dijual">Dijual</option>
+                        <option value="Dipindahkan">Dipindahkan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reduce-date">Reduction Date:</label>
+                    <input type="date" id="reduce-date" required>
+                </div>
+                <button type="submit">Reduce Asset</button>
+            </form>
+            <h3>Reduced Assets History</h3>
+            <table id="reduce-asset-list">
+                <thead>
+                    <tr>
+                        <th>Asset Name</th>
+                        <th>Kode Barang</th>
+                        <th>Kode Lokasi</th>
+                        <th>Location</th>
+                        <th>Quantity</th>
+                        <th>Reason</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="reduce-asset-table-body"></tbody>
+            </table>
+        </div>
     </div>
 
     <script>
-        function showPage(page) {
+        // Arrays to store asset data
+        let addedAssets = [];
+        let reducedAssets = [];
+        
+        // Login function
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple authentication (for demo purposes)
+            // In a real application, this would involve server-side validation
+            if (username === 'admin' && password === 'password') {
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('app-container').classList.remove('hidden');
+                showPage('add-page');
+            } else {
+                alert('Invalid username or password!');
+            }
+        });
+        
+        // Logout function
+        function logout() {
+            document.getElementById('login-page').classList.remove('hidden');
+            document.getElementById('app-container').classList.add('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+        
+        function showPage(pageId) {
             document.getElementById('add-page').classList.add('hidden');
             document.getElementById('reduce-page').classList.add('hidden');
-            if (page === 'add') {
-                document.getElementById('add-page').classList.remove('hidden');
-            } else if (page === 'reduce') {
-                document.getElementById('reduce-page').classList.remove('hidden');
-            }
+            document.getElementById(pageId).classList.remove('hidden');
         }
+        
+        // Format input with dots automatically
+        function formatCodeInput(input, format) {
+            input.addEventListener('input', function(e) {
+                // Remove all non-digits
+                let value = this.value.replace(/\D/g, '');
+                
+                // Apply format based on the specified pattern
+                let formattedValue = '';
+                
+                if (format === 'asset') {
+                    // Format: xx.xx.xx.xx
+                    if (value.length > 0) {
+                        formattedValue += value.substring(0, 2);
+                        if (value.length > 2) {
+                            formattedValue += '.' + value.substring(2, 4);
+                            if (value.length > 4) {
+                                formattedValue += '.' + value.substring(4, 6);
+                                if (value.length > 6) {
+                                    formattedValue += '.' + value.substring(6, 8);
+                                }
+                            }
+                        }
+                    }
+                } else if (format === 'location') {
+                    // Format: xx.xx.xx
+                    if (value.length > 0) {
+                        formattedValue += value.substring(0, 2);
+                        if (value.length > 2) {
+                            formattedValue += '.' + value.substring(2, 4);
+                            if (value.length > 4) {
+                                formattedValue += '.' + value.substring(4, 6);
+                            }
+                        }
+                    }
+                }
+                
+                this.value = formattedValue;
+            });
+        }
+        
+        // Function to add an asset to the table
+        function addAssetToTable(asset) {
+            const tableBody = document.getElementById('add-asset-table-body');
+            const index = addedAssets.length - 1;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${asset.name}</td>
+                <td>${parseInt(asset.value).toLocaleString('id-ID')}</td>
+                <td>${asset.purchaseDate}</td>
+                <td>${asset.quantity}</td>
+                <td>${asset.location}</td>
+                <td><button class="delete-btn" onclick="deleteAddedAsset(${index})">Hapus</button></td>
+            `;
+            
+            tableBody.appendChild(row);
+        }
+        
+        // Function to add a reduced asset to the table
+        function addReducedAssetToTable(asset) {
+            const tableBody = document.getElementById('reduce-asset-table-body');
+            const index = reducedAssets.length - 1;
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${asset.name}</td>
+                <td>${asset.assetCode}</td>
+                <td>${asset.locationCode}</td>
+                <td>${asset.location}</td>
+                <td>${asset.quantity}</td>
+                <td>${asset.reason}</td>
+                <td>${asset.date}</td>
+                <td><button class="delete-btn" onclick="deleteReducedAsset(${index})">Hapus</button></td>
+            `;
+            
+            tableBody.appendChild(row);
+        }
+        
+        // Function to delete an added asset
+        function deleteAddedAsset(index) {
+            addedAssets.splice(index, 1);
+            updateAddedAssetTable();
+        }
+        
+        // Function to delete a reduced asset
+        function deleteReducedAsset(index) {
+            reducedAssets.splice(index, 1);
+            updateReducedAssetTable();
+        }
+        
+        // Function to update the added asset table
+        function updateAddedAssetTable() {
+            const tableBody = document.getElementById('add-asset-table-body');
+            tableBody.innerHTML = '';
+            
+            addedAssets.forEach((asset, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${asset.name}</td>
+                    <td>${parseInt(asset.value).toLocaleString('id-ID')}</td>
+                    <td>${asset.purchaseDate}</td>
+                    <td>${asset.quantity}</td>
+                    <td>${asset.location}</td>
+                    <td><button class="delete-btn" onclick="deleteAddedAsset(${index})">Hapus</button></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Function to update the reduced asset table
+        function updateReducedAssetTable() {
+            const tableBody = document.getElementById('reduce-asset-table-body');
+            tableBody.innerHTML = '';
+            
+            reducedAssets.forEach((asset, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${asset.name}</td>
+                    <td>${asset.assetCode}</td>
+                    <td>${asset.locationCode}</td>
+                    <td>${asset.location}</td>
+                    <td>${asset.quantity}</td>
+                    <td>${asset.reason}</td>
+                    <td>${asset.date}</td>
+                    <td><button class="delete-btn" onclick="deleteReducedAsset(${index})">Hapus</button></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add auto-formatting to code inputs
+            const assetCodeInput = document.getElementById('reduce-asset-code');
+            const locationCodeInput = document.getElementById('reduce-location-code');
+            
+            formatCodeInput(assetCodeInput, 'asset');
+            formatCodeInput(locationCodeInput, 'location');
+            
+            // Add event listeners for forms
+            document.getElementById('add-asset-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const name = document.getElementById('add-asset-name').value;
+                const value = document.getElementById('add-asset-value').value;
+                const purchaseDate = document.getElementById('add-purchase-date').value;
+                const quantity = document.getElementById('add-quantity').value;
+                const location = document.getElementById('add-location').value;
+                
+                // Create asset object
+                const asset = {
+                    name,
+                    value,
+                    purchaseDate,
+                    quantity,
+                    location
+                };
+                
+                // Add to array
+                addedAssets.push(asset);
+                
+                // Add to table
+                addAssetToTable(asset);
+                
+                // Reset form
+                this.reset();
+                
+                // Show success message
+                alert('Asset added successfully!');
+            });
+            
+            document.getElementById('reduce-asset-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate format before submission
+                const assetCode = assetCodeInput.value;
+                const locationCode = locationCodeInput.value;
+                
+                const assetCodePattern = /^\d{2}\.\d{2}\.\d{2}\.\d{2}$/;
+                const locationCodePattern = /^\d{2}\.\d{2}\.\d{2}$/;
+                
+                if (!assetCodePattern.test(assetCode)) {
+                    alert('Format kode barang harus xx.xx.xx.xx');
+                    return;
+                }
+                
+                if (!locationCodePattern.test(locationCode)) {
+                    alert('Format kode lokasi harus xx.xx.xx');
+                    return;
+                }
+                
+                // Get form values
+                const name = document.getElementById('reduce-asset-name').value;
+                const location = document.getElementById('reduce-location').value;
+                const quantity = document.getElementById('reduce-quantity').value;
+                const reason = document.getElementById('reduce-reason').value;
+                const date = document.getElementById('reduce-date').value;
+                
+                // Create asset object
+                const asset = {
+                    name,
+                    assetCode,
+                    locationCode,
+                    location,
+                    quantity,
+                    reason,
+                    date
+                };
+                
+                // Add to array
+                reducedAssets.push(asset);
+                
+                // Add to table
+                addReducedAssetToTable(asset);
+                
+                // Reset form
+                this.reset();
+                
+                // Show success message
+                alert('Asset reduced successfully!');
+            });
+        });
     </script>
 </body>
 </html>
