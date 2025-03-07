@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management - Palm Oil Plantations</title>
+    <title>Asset Management - Palm Oil Plantation</title>
     <style>
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -36,6 +36,27 @@
             border-radius: 10px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
             color: #333;
+        }
+        .selection-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .selection-button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .selection-button:hover {
+            background-color: #388e3c;
+        }
+        .hidden {
+            display: none;
         }
         table {
             width: 100%;
@@ -95,7 +116,13 @@
         <img src="https://indrakarya.co.id/wp-content/uploads/2025/02/cropped-Turunan-Logo-01-1.png" alt="Company Logo" class="logo">
     </div>
     <h1>Asset Management System - Palm Oil Plantation</h1>
-    <div class="container">
+    
+    <div class="selection-container">
+        <button class="selection-button" onclick="showPage('add')">Penambahan Aset</button>
+        <button class="selection-button" onclick="showPage('reduce')">Pengurangan Aset</button>
+    </div>
+
+    <div id="add-page" class="container hidden">
         <h2>Add New Asset</h2>
         <form id="asset-form">
             <div class="form-group">
@@ -125,49 +152,22 @@
             </div>
             <button type="submit">Add Asset</button>
         </form>
+    </div>
 
-        <h2>Asset List</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Asset Name</th>
-                    <th>Value (IDR)</th>
-                    <th>Purchase Date</th>
-                    <th>Quantity</th>
-                    <th>Location</th>
-                </tr>
-            </thead>
-            <tbody id="asset-list">
-            </tbody>
-        </table>
+    <div id="reduce-page" class="container hidden">
+        <h2>Reduce Asset</h2>
+        <p>Form for reducing assets will be added here.</p>
     </div>
 
     <script>
-        const form = document.getElementById('asset-form');
-        const assetList = document.getElementById('asset-list');
-
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            const assetName = document.getElementById('asset-name').value;
-            const assetValue = document.getElementById('asset-value').value;
-            const purchaseDate = document.getElementById('purchase-date').value;
-            const quantity = document.getElementById('quantity').value;
-            const location = document.getElementById('location').value;
-
-            const newRow = `<tr>
-                <td>${assetName}</td>
-                <td>${formatRupiah(assetValue)}</td>
-                <td>${purchaseDate}</td>
-                <td>${quantity}</td>
-                <td>${location}</td>
-            </tr>`;
-
-            assetList.innerHTML += newRow;
-            form.reset();
-        });
-
-        function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(angka);
+        function showPage(page) {
+            document.getElementById('add-page').classList.add('hidden');
+            document.getElementById('reduce-page').classList.add('hidden');
+            if (page === 'add') {
+                document.getElementById('add-page').classList.remove('hidden');
+            } else if (page === 'reduce') {
+                document.getElementById('reduce-page').classList.remove('hidden');
+            }
         }
     </script>
 </body>
